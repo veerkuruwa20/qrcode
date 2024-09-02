@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
+    <title>QR CODE GENERATOR</title>
+</head>
+<body>
+    <form id="qrform">
+        <h1>QR Code Generator</h1>
+        <label for="textl">Enter Link/Text:</label>
+        <input type="text" id="textl" name="tetxl" required><br><br>
+        <button class="button"> Submit</button>
+        <br>
+        <div id="qr-code"></div>
+        <div id="loading" class="loading"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M320-160h320v-120q0-66-47-113t-113-47q-66 0-113 47t-47 113v120ZM160-80v-80h80v-120q0-61 28.5-114.5T348-480q-51-32-79.5-85.5T240-680v-120h-80v-80h640v80h-80v120q0 61-28.5 114.5T612-480q51 32 79.5 85.5T720-280v120h80v80H160Z"/></svg></div>
+    </form>
+   
+
+</body>
+<script>
+let qrContentInput = document.getElementById("textl");
+let qrForm = document.getElementById("qrform");
+let qrCode;
+
+function generateQrCode(qrContent) {
+    return new QRCode("qr-code", {
+        text: qrContent,
+        width: 256,
+        height: 256,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H,
+    });
+}
+
+function downloadQRCode() {
+    let qrCodeElement = document.querySelector("#qr-code img");
+    if (qrCodeElement) {
+        let url = qrCodeElement.src;
+        let link = document.createElement("a");
+        link.href = url;
+        link.download = "qrcode.png";
+        link.click();
+    }
+}
+
+qrForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+    let qrContent = qrContentInput.value;
+
+    let existingQrImg = document.querySelector("#qr-code img");
+    if (existingQrImg) {
+        existingQrImg.remove();
+    }
+
+    let existingDownloadBtn = document.getElementById("download-btn");
+    if (existingDownloadBtn) {
+        existingDownloadBtn.remove();
+    }
+
+
+    let loading = document.getElementById("loading");
+    loading.classList.add("show");
+
+    let qrCodeContainer = document.getElementById("qr-code");
+    qrCodeContainer.classList.remove("show");
+
+    qrCode = generateQrCode(qrContent);
+
+    setTimeout(() => {
+        loading.classList.remove("show");
+        
+   
+        qrCodeContainer.classList.add("show");
+        
+        let downloadBtn = document.createElement("button");
+        downloadBtn.id = "download-btn";
+        downloadBtn.className = "button";
+        downloadBtn.textContent = "Download QR Code";
+        downloadBtn.addEventListener("click", downloadQRCode);
+        qrForm.appendChild(downloadBtn);
+    }, 2500); 
+});
+</script>
+</html>
