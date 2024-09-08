@@ -29,7 +29,7 @@ body{
     background-attachment: fixed;
 }
 h1{
-    color:var(--base-color);
+    color:var(--text-color);
     font-family: "Mulish", sans-serif;
     font-optical-sizing: auto;
     font-weight:500;
@@ -72,12 +72,12 @@ h1{
 
 
 #qrform {
-   background: rgba(255, 255, 255, 0.1);
-    color: var(--base-color);
+   background: rgba(80, 79, 79, 0.1);
+    color: var(--text-color);
     padding: 20px;
     border-radius: 10px;
     border: 1px solid rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(15px);
+    backdrop-filter: blur(10px);
     width: 350px;
     text-align: center;
     display: flex;
